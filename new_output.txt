@@ -1,0 +1,787 @@
+
+============================================================
+TEST CASE: CONFLICT TEST CASE
+============================================================
+
+=== PRIORITY strategy ===
+
+CYCLE 1
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Failing
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Failing
+
+Firing rule: administrative-hold-prevents-enrollment
+Bindings: {'?student': 'Carol', '?course': 'CS550'}
+Adding assertions to WM:
+  ('cannot-enroll-course', 'Carol', 'CS550')
+
+CYCLE 2
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Failing
+
+Firing rule: missing-prerequisite-prevents-enrollment
+Bindings: {'?course': 'CS550', '?prereq': 'CS350', '?student': 'Carol'}
+No new WM assertions
+
+CYCLE 3
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Failing
+
+Firing rule: graduate-only-course-restriction
+Bindings: {'?course': 'CS550', '?student': 'Carol'}
+No new WM assertions
+
+CYCLE 4
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Failing
+
+Firing rule: cannot-enroll-course-implies-drop-request
+Bindings: {'?student': 'Carol', '?course': 'CS550'}
+Adding assertions to WM:
+  ('dropped-request', 'Carol', 'CS550')
+
+CYCLE 5
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+  ('dropped-request', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Match succeeds
+
+Firing rule: dropped-request-implies-notify-student
+Bindings: {'?student': 'Carol', '?course': 'CS550'}
+Adding assertions to WM:
+  ('notified-student', 'Carol', 'CS550')
+
+CYCLE 6
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+  ('dropped-request', 'Carol', 'CS550')
+  ('notified-student', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Match succeeds
+
+NO CHANGES ON LAST CYCLE, HALTING
+
+
+Final WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+  ('dropped-request', 'Carol', 'CS550')
+  ('notified-student', 'Carol', 'CS550')
+
+=== SPECIFICITY strategy ===
+
+CYCLE 1
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Failing
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Failing
+
+Firing rule: missing-prerequisite-prevents-enrollment
+Bindings: {'?course': 'CS550', '?prereq': 'CS350', '?student': 'Carol'}
+Adding assertions to WM:
+  ('cannot-enroll-course', 'Carol', 'CS550')
+
+CYCLE 2
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Failing
+
+Firing rule: graduate-only-course-restriction
+Bindings: {'?course': 'CS550', '?student': 'Carol'}
+No new WM assertions
+
+CYCLE 3
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Failing
+
+Firing rule: administrative-hold-prevents-enrollment
+Bindings: {'?student': 'Carol', '?course': 'CS550'}
+No new WM assertions
+
+CYCLE 4
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Failing
+
+Firing rule: cannot-enroll-course-implies-drop-request
+Bindings: {'?student': 'Carol', '?course': 'CS550'}
+Adding assertions to WM:
+  ('dropped-request', 'Carol', 'CS550')
+
+CYCLE 5
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+  ('dropped-request', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Match succeeds
+
+Firing rule: dropped-request-implies-notify-student
+Bindings: {'?student': 'Carol', '?course': 'CS550'}
+Adding assertions to WM:
+  ('notified-student', 'Carol', 'CS550')
+
+CYCLE 6
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+  ('dropped-request', 'Carol', 'CS550')
+  ('notified-student', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Match succeeds
+
+NO CHANGES ON LAST CYCLE, HALTING
+
+
+Final WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+  ('dropped-request', 'Carol', 'CS550')
+  ('notified-student', 'Carol', 'CS550')
+
+=== ORDER strategy ===
+
+CYCLE 1
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Failing
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Failing
+
+Firing rule: graduate-only-course-restriction
+Bindings: {'?course': 'CS550', '?student': 'Carol'}
+Adding assertions to WM:
+  ('cannot-enroll-course', 'Carol', 'CS550')
+
+CYCLE 2
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Failing
+
+Firing rule: missing-prerequisite-prevents-enrollment
+Bindings: {'?course': 'CS550', '?prereq': 'CS350', '?student': 'Carol'}
+No new WM assertions
+
+CYCLE 3
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Failing
+
+Firing rule: administrative-hold-prevents-enrollment
+Bindings: {'?student': 'Carol', '?course': 'CS550'}
+No new WM assertions
+
+CYCLE 4
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Failing
+
+Firing rule: cannot-enroll-course-implies-drop-request
+Bindings: {'?student': 'Carol', '?course': 'CS550'}
+Adding assertions to WM:
+  ('dropped-request', 'Carol', 'CS550')
+
+CYCLE 5
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+  ('dropped-request', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Match succeeds
+
+Firing rule: dropped-request-implies-notify-student
+Bindings: {'?student': 'Carol', '?course': 'CS550'}
+Adding assertions to WM:
+  ('notified-student', 'Carol', 'CS550')
+
+CYCLE 6
+
+Current WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+  ('dropped-request', 'Carol', 'CS550')
+  ('notified-student', 'Carol', 'CS550')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Match succeeds
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Match succeeds
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Match succeeds
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Match succeeds
+
+NO CHANGES ON LAST CYCLE, HALTING
+
+
+Final WM:
+  ('student', 'Carol')
+  ('request-course', 'Carol', 'CS550')
+  ('graduate-only', 'CS550')
+  ('not-graduate-student', 'Carol')
+  ('course-prerequisite', 'CS550', 'CS350')
+  ('not-completed', 'Carol', 'CS350')
+  ('no-waiver', 'Carol', 'CS350')
+  ('has-hold', 'Carol')
+  ('cannot-enroll-course', 'Carol', 'CS550')
+  ('dropped-request', 'Carol', 'CS550')
+  ('notified-student', 'Carol', 'CS550')
+
+============================================================
+TEST CASE: NO-MATCH TEST CASE
+============================================================
+
+=== PRIORITY strategy ===
+
+CYCLE 1
+
+Current WM:
+  ('student', 'Eve')
+  ('likes', 'Eve', 'AI')
+  ('hobby', 'Eve', 'Chess')
+
+Attempting to match rule 1: graduate-only-course-restriction
+  Failing
+
+Attempting to match rule 2: missing-prerequisite-prevents-enrollment
+  Failing
+
+Attempting to match rule 3: credit-limit-prevents-enrollment
+  Failing
+
+Attempting to match rule 4: time-conflict-prevents-enrollment
+  Failing
+
+Attempting to match rule 5: administrative-hold-prevents-enrollment
+  Failing
+
+Attempting to match rule 6: cannot-enroll-course-implies-drop-request
+  Failing
+
+Attempting to match rule 7: dropped-request-implies-notify-student
+  Failing
+
+NO CHANGES ON LAST CYCLE, HALTING
+
+
+Final WM:
+  ('student', 'Eve')
+  ('likes', 'Eve', 'AI')
+  ('hobby', 'Eve', 'Chess')

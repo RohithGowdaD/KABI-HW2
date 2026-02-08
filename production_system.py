@@ -100,42 +100,64 @@ def resolve_conflict(agenda, strategy="priority"):
 
 def run_ps(working_memory, rules, strategy="priority"):
     wm = list(working_memory)
-    iteration = 0
+    fired = set()
+    cycle = 0
 
     while True:
-        iteration += 1
-        print(f"\n--- Iteration {iteration} ---")
-        agenda = []
+        cycle += 1
+        print(f"\nCYCLE {cycle}")
+        print("\nCurrent WM:")
+        for fact in wm:
+            print(" ", fact)
 
-        for rule in rules:
+        agenda = []
+        any_new_fact = False
+
+        for idx, rule in enumerate(rules, start=1):
+            print(f"\nAttempting to match rule {idx}: {rule.name}")
+
             bindings_list = match_antecedents(rule.antecedents, wm)
+
+            if not bindings_list:
+                print("  Failing")
+                continue
+
+            print("  Match succeeds")
+
             for bindings in bindings_list:
-                agenda.append((rule, bindings))
+                key = (rule.name, tuple(sorted(bindings.items())))
+                if key not in fired:
+                    agenda.append((rule, bindings))
 
         if not agenda:
-            print("No applicable rules. Halting.")
+            print("\nNO CHANGES ON LAST CYCLE, HALTING\n")
             break
 
         selected_rule, bindings = resolve_conflict(agenda, strategy)
+        key = (selected_rule.name, tuple(sorted(bindings.items())))
+        fired.add(key)
 
-        print(f"Firing rule: {selected_rule.name}")
-        print(f"Bindings: {bindings}")
+        print(f"\nFiring rule: {selected_rule.name}")
+        print("Bindings:", bindings)
 
-        new_facts = []
         for cons in selected_rule.consequents:
             fact = instantiate(cons, bindings)
             if fact not in wm:
+                print("Adding assertions to WM:")
+                print(" ", fact)
                 wm.append(fact)
-                new_facts.append(fact)
+                any_new_fact = True
 
-        if not new_facts:
-            print("No new facts inferred. Halting.")
-            break
+        if not any_new_fact:
+            print("No new WM assertions")
 
-        for f in new_facts:
-            print("  +", f)
+    print("\nFinal WM:")
+    for fact in wm:
+        print(" ", fact)
 
     return wm
+
+
 # -------------------------------
 # Rule Base (from HW1)
 # -------------------------------
@@ -181,29 +203,80 @@ rules = [
         ],
         [("cannot-enroll", "?student", "?sectionB")],
         priority=5
+    ),
+
+    Rule(
+    "administrative-hold-prevents-enrollment",
+    [
+        ("has-hold", "?student"),
+        ("request-course", "?student", "?course")
+    ],
+    [("cannot-enroll-course", "?student", "?course")],
+    priority=9
+    ),
+
+
+    Rule(
+    "cannot-enroll-course-implies-drop-request",
+    [
+        ("cannot-enroll-course", "?student", "?course"),
+        ("request-course", "?student", "?course")
+    ],
+    [("dropped-request", "?student", "?course")],
+    priority=4
+    ),
+    Rule(
+    "dropped-request-implies-notify-student",
+    [
+        ("dropped-request", "?student", "?course")
+    ],
+    [("notified-student", "?student", "?course")],
+    priority=3
     )
+
 ]
+
+
 
 
 if __name__ == "__main__":
 
-    print("\n===== CONFLICT TEST CASE =====")
+    # -------------------------------
+    # Define Working Memories
+    # -------------------------------
 
-    WM_conflict = [
-        ("student", "Bob"),
-        ("request-course", "Bob", "CS550"),
-        ("course-prerequisite", "CS550", "CS350"),
-        ("not-completed", "Bob", "CS350"),
-        ("no-waiver", "Bob", "CS350"),
-        ("graduate-only", "CS550"),
-        ("not-graduate-student", "Bob")
-    ]
+    working_memories = {
+        "CONFLICT TEST CASE": [
+            ("student", "Carol"),
+            ("request-course", "Carol", "CS550"),
+            ("graduate-only", "CS550"),
+            ("not-graduate-student", "Carol"),
+            ("course-prerequisite", "CS550", "CS350"),
+            ("not-completed", "Carol", "CS350"),
+            ("no-waiver", "Carol", "CS350"),
+            ("has-hold", "Carol")
+        ],
 
-    print("\n=== PRIORITY strategy ===")
-    run_ps(WM_conflict, rules, strategy="priority")
+        "NO-MATCH TEST CASE": [
+            ("student", "Eve"),
+            ("likes", "Eve", "AI"),
+            ("hobby", "Eve", "Chess")
+        ]
+    }
 
-    print("\n=== SPECIFICITY strategy ===")
-    run_ps(WM_conflict, rules, strategy="specificity")
+    strategies = ["priority", "specificity", "order"]
 
-    print("\n=== RULE ORDER strategy ===")
-    run_ps(WM_conflict, rules, strategy="order")
+    for wm_name, wm in working_memories.items():
+
+        print("\n" + "=" * 60)
+        print(f"TEST CASE: {wm_name}")
+        print("=" * 60)
+
+        for strategy in strategies:
+
+            # No need to run all strategies for no-match case
+            if wm_name == "NO-MATCH TEST CASE" and strategy != "priority":
+                continue
+
+            print(f"\n=== {strategy.upper()} strategy ===")
+            run_ps(wm, rules, strategy=strategy)
