@@ -25,7 +25,7 @@ The program will automatically run two test cases:
 1.  **Case 1 (Enrollment):** Demonstrates the `Priority` strategy solving a course enrollment conflict.
 2.  **Case 2 (Strategy Comparison):** Runs the same data against `Priority`, `Specificity`, and `Order` strategies to demonstrate how the inference path changes based on the chosen strategy.
 
-At the end of each run, the system prints the **Explanation Trace**, detailing exactly how specific facts were derived.
+At the end of each run, the system generates a .txt output file, the **Explanation Trace**, detailing exactly how specific facts were derived.
 
 ## System Features
 
