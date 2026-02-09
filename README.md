@@ -1,7 +1,7 @@
 # Homework 2: Rule-Based System Implementation
 
 **Course:** CSCI-B 552 Knowledge Based AI (Spring 2026)
-**Author:** Logan Reddell
+**Authors:** Logan Reddell, Niloy Deb Roy Mishu, and Rohith Gowda Devaraju
 **Language:** Python 3.13
 
 ## Overview
