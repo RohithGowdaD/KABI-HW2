@@ -18,7 +18,7 @@ This project implements a domain-independent, forward-chaining production system
 ## How to Run
 Open your terminal or command prompt, navigate to the project directory, and run:
 
-    python production_system.py
+    python production_system.py > output.txt
 
 ### Expected Output
 The program will automatically run two test cases:
